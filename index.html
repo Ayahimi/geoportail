@@ -1,21 +1,51 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Géoportail de l'IAV</title>
 
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="style.css?v=2">
+    <!-- Leaflet : styles de la carte -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <!-- Style principal -->
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Hauteur minimale de la carte -->
+    <style>
+        html, body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        #zone-carte {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #carte {
+            width: 100%;
+            height: 600px;
+            min-height: 400px;
+        }
+    </style>
 </head>
+
 <body>
+
     <header>
         <h1>Géoportail de l'IAV</h1>
         <p>Plateforme d'analyse et de visualisation géospatiale</p>
     </header>
 
     <main>
+
+        <!-- Panneau latéral -->
         <aside>
             <h2>Couches cartographiques</h2>
 
@@ -39,41 +69,83 @@
             <div id="requetes">
                 <h2>Requêtes spatiales WPS</h2>
 
-                <button onclick="executerBounds()"> Calculer Bounds</button>
-                <button onclick="executerCentroid()"> Calculer Centroid</button>
-                <button onclick="executerCompterArbres()"> Compter les Arbres</button>
-                <button onclick="executerCompterBatiments()"> Compter les Bâtiments</button>
-                <button onclick="executerBuffer()"> Buffer des Routes (10m)</button>
-                <button onclick="executerBufferArbres()"> Buffer des Arbres (5m)</button>
-                <button onclick="executerInclusion()"> Inclusion (Routes / Bâtiments)</button>
-                <button onclick="executerAggregateHauteur()"> Hauteur moyenne des Bâtiments</button>
-               <button onclick="executerHeatmap()">Calculer la Heatmap des Arbres (TIFF)</button>
-               <button onclick="executerConvexHull()">Calculer l'Enveloppe Convexe (Convex Hull)</button>
-        
+                <button onclick="executerBounds()">
+                    Calculer Bounds
+                </button>
+
+                <button onclick="executerCentroid()">
+                    Calculer Centroid
+                </button>
+
+                <button onclick="executerCompterArbres()">
+                    Compter les Arbres
+                </button>
+
+                <button onclick="executerCompterBatiments()">
+                    Compter les Bâtiments
+                </button>
+
+                <button onclick="executerBuffer()">
+                    Buffer des Routes (10 m)
+                </button>
+
+                <button onclick="executerBufferArbres()">
+                    Buffer des Arbres (5 m)
+                </button>
+
+                <button onclick="executerInclusion()">
+                    Inclusion (Routes / Bâtiments)
+                </button>
+
+                <button onclick="executerAggregateHauteur()">
+                    Hauteur moyenne des Bâtiments
+                </button>
+
+                <button onclick="executerHeatmap()">
+                    Calculer la Heatmap des Arbres (TIFF)
+                </button>
+
+                <button onclick="executerConvexHull()">
+                    Calculer l'Enveloppe Convexe (Convex Hull)
+                </button>
 
                 <h3>Résultat</h3>
+
                 <pre id="resultat">Clique sur un bouton pour lancer une requête.</pre>
             </div>
         </aside>
 
+        <!-- Carte -->
         <section id="zone-carte">
             <div id="carte"></div>
         </section>
+
     </main>
 
-    <footer>Projet Web Mapping — IAV Hassan II</footer>
+    <footer>
+        Projet Web Mapping — IAV Hassan II
+    </footer>
 
-    <!-- Scripts Leaflet et Proj4 -->
+    <!-- Bibliothèques -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
 
+    <!-- Définition du système Merchich / Nord Maroc -->
     <script>
-    proj4.defs("EPSG:26191",
-      "+proj=lcc +lat_1=33.3 +lat_0=33.3 +lon_0=-5.4 +k_0=0.999625769 +x_0=500000 +y_0=300000 +ellps=clrk80ign +towgs84=31,146,47,0,0,0,0 +units=m +no_defs"
-    );
+        proj4.defs(
+            "EPSG:26191",
+            "+proj=lcc +lat_1=33.3 +lat_0=33.3 " +
+            "+lon_0=-5.4 +k_0=0.999625769 " +
+            "+x_0=500000 +y_0=300000 " +
+            "+ellps=clrk80ign " +
+            "+towgs84=31,146,47,0,0,0,0 " +
+            "+units=m +no_defs"
+        );
     </script>
 
-    <!-- Script principal -->
-    <script src="app.js"></script>
+    <!-- Application principale -->
+    <script src="./app.js"></script>
+
 </body>
 </html>
