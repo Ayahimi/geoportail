@@ -1,23 +1,45 @@
 
-console.log("Chargement de app.js");
+document.addEventListener('DOMContentLoaded', function () {
+    const conteneur = document.getElementById('carte');
 
-const conteneur = document.getElementById("carte");
+    if (!conteneur) {
+        console.error('Élément #carte introuvable.');
+        return;
+    }
 
-if (!conteneur) {
-    console.error("ERREUR : élément #carte introuvable dans index.html");
-} else if (typeof L === "undefined") {
-    console.error("ERREUR : Leaflet n'est pas chargé");
-} else if (conteneur._leaflet_id) {
-    console.warn("La carte Leaflet est déjà initialisée.");
-} else {
+    if (typeof L === 'undefined') {
+        console.error('Leaflet n’est pas chargé.');
+        return;
+    }
+
+    if (conteneur._leaflet_id) {
+        console.warn('Carte déjà initialisée.');
+        return;
+    }
+
     const map = L.map(conteneur).setView([33.98, -6.87], 14);
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "&copy; OpenStreetMap contributors"
+    const osm = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+    const satellite = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        {
+            maxZoom: 19,
+            attribution: '&copy; Esri'
+        }
+    );
+
+    L.control.layers({
+        'OpenStreetMap': osm,
+        'Satellite': satellite
     }).addTo(map);
 
-    console.log("Carte initialisée avec succès.");
-
     window.iavMap = map;
-}
+    console.log('Carte initialisée correctement.');
+});
